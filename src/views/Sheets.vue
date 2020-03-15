@@ -8,7 +8,7 @@
         <v-list-item
           v-for="sheet in filteredSheets"
           :key="sheet.id"
-          :to="'/sheet/' + sheet.id"
+          :to="'/sheets/' + sheet.id"
         >
           <v-list-item-content two-line>
             <v-list-item-title>{{ sheet.title }}</v-list-item-title>
