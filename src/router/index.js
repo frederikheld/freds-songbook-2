@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Sheets from '../views/Sheets.vue'
+import Sheet from '../views/Sheet.vue'
+import EditSheet from '../views/EditSheet.vue'
+import PlaySheet from '../views/PlaySheet.vue'
 
 Vue.use(VueRouter)
 
@@ -9,6 +13,26 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/sheets',
+    name: 'Sheets',
+    component: Sheets
+  },
+  {
+    path: '/sheets/:id',
+    name: 'Sheet',
+    component: Sheet
+  },
+  {
+    path: '/edit-sheet',
+    name: 'EditSheet',
+    component: EditSheet
+  },
+  {
+    path: '/play-sheet',
+    name: 'PlaySheet',
+    component: PlaySheet
   },
   {
     path: '/about',
