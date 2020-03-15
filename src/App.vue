@@ -18,6 +18,7 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
         <v-list-item
           link
           to="/sheets"
@@ -28,6 +29,19 @@
 
           <v-list-item-content>
             <v-list-item-title>Sheets</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
+          link
+          to="/about"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-information</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>
+            <v-list-item-title>About</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

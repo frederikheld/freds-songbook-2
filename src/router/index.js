@@ -3,8 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Sheets from '../views/Sheets.vue'
 import Sheet from '../views/Sheet.vue'
-import EditSheet from '../views/EditSheet.vue'
 import PlaySheet from '../views/PlaySheet.vue'
+import EditSheet from '../views/EditSheet.vue'
+import ShareSheet from '../views/ShareSheet.vue'
 
 Vue.use(VueRouter)
 
@@ -22,17 +23,25 @@ const routes = [
   {
     path: '/sheets/:id',
     name: 'Sheet',
-    component: Sheet
-  },
-  {
-    path: '/edit-sheet',
-    name: 'EditSheet',
-    component: EditSheet
-  },
-  {
-    path: '/play-sheet',
-    name: 'PlaySheet',
-    component: PlaySheet
+    component: Sheet,
+    redirect: '/sheets/:id/play',
+    children: [
+      {
+        path: 'play',
+        name: 'PlaySheet',
+        component: PlaySheet
+      },
+      {
+        path: 'edit',
+        name: 'EditSheet',
+        component: EditSheet
+      },
+      {
+        path: 'share',
+        name: 'ShareSheet',
+        component: ShareSheet
+      }
+    ]
   },
   {
     path: '/about',
