@@ -7,6 +7,7 @@ import PlaySheet from '../views/PlaySheet.vue'
 import EditSheet from '../views/EditSheet.vue'
 import ShareSheet from '../views/ShareSheet.vue'
 import CreateSheet from '../views/CreateSheet.vue'
+import Settings from '../views/Settings.vue'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
         component: ShareSheet
       }
     ]
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings
   },
   {
     path: '/about',

@@ -34,6 +34,19 @@
 
         <v-list-item
           link
+          to="/settings"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-hammer-wrench</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
+          link
           to="/about"
         >
           <v-list-item-action>
@@ -55,6 +68,10 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-app-bar-nav-icon>
+
+      <v-toolbar-title>
+        {{ songbookName }} Songbook
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-content>
@@ -64,12 +81,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
 
   data: () => ({
     drawer: null
-  })
+  }),
+  computed: {
+    ...mapGetters([
+      'songbookName'
+    ])
+  }
 }
 </script>

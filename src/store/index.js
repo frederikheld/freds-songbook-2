@@ -184,16 +184,39 @@ I had to find the passage back to the place I was before.
 "Relax", said the night man, "we are programmed to receive.
 You can check out any time you like,
 but you can never leave."`
-    }
+    },
+    songbookName: 'Fred\'s'
   },
   getters: {
     sheet: function (state, id) {
       return function (id) {
         return state.sheets[id]
       }
+    },
+    songbookName: function (state) {
+      return state.songbookName
     }
   },
   mutations: {
+    setSongbookName (state, name) {
+      let fixedName
+
+      // wrongfully ends with an apostrophe:
+      if (name.endsWith('\'')) {
+        name = name.slice(0, -1)
+      }
+
+      // already ends with 's --> take name as is
+      if (name.endsWith('\'s')) {
+        fixedName = name
+
+      // doesn't already end with 's --> add it
+      } else {
+        fixedName = name + '\'s'
+      }
+
+      state.songbookName = fixedName
+    }
   },
   actions: {
   },
