@@ -6,6 +6,7 @@ import Sheet from '../views/Sheet.vue'
 import PlaySheet from '../views/PlaySheet.vue'
 import EditSheet from '../views/EditSheet.vue'
 import ShareSheet from '../views/ShareSheet.vue'
+import CreateSheet from '../views/CreateSheet.vue'
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,11 @@ const routes = [
     path: '/sheets',
     name: 'Sheets',
     component: Sheets
+  },
+  {
+    path: '/sheets/create',
+    name: 'CreateSheet',
+    component: CreateSheet
   },
   {
     path: '/sheets/:id',
