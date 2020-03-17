@@ -4,7 +4,7 @@
       <v-col>
         <h1>Create new sheet</h1>
         <v-form>
-          <v-textarea ref="sheet" :value="sheet" />
+          <v-textarea class="sheet" ref="sheet" v-model="sheet" />
         </v-form>
         <span class="mr-1">add:</span>
         <a
@@ -33,6 +33,9 @@
 </template>
 
 <style scoped>
+/* .sheet textarea {
+  white-space: pre-wrap;
+} */
 </style>
 
 <script>
@@ -43,8 +46,7 @@ export default {
   components: { SheetTemplateInfoDialog },
   data () {
     return {
-      sheet: `{{artist:My Artist}}
-{{title:My Title}}`,
+      sheet: '{{artist:My Artist}}\n{{title:My Title}}',
       templateTags: {
         artist: '{{artist:##}}',
         title: '{{title:##}}',
@@ -54,9 +56,22 @@ export default {
       }
     }
   },
+  mounted () {
+    // this.$refs.sheet.$el.querySelector('textarea').setAttribute('wrap', 'hard')
+  },
+  computed: {
+  },
   methods: {
     addTemplateTag (tag) {
-      this.sheet += '\n' + tag
+      const firstHalf = this.sheet.substr(0, this.$refs.sheet.$el.querySelector('textarea').selectionStart)
+      const secondHalf = this.sheet.substr(this.$refs.sheet.$el.querySelector('textarea').selectionEnd)
+      this.sheet = firstHalf + tag + secondHalf
+
+      this.$nextTick(function () {
+        // set cursors at the end of the newly inserted text:
+        this.$refs.sheet.$el.querySelector('textarea').focus()
+        this.$refs.sheet.$el.querySelector('textarea').setSelectionRange((firstHalf + tag).length, (firstHalf + tag).length)
+      })
     }
   }
 }
