@@ -4,8 +4,17 @@
       <v-col>
         <h1>Create new sheet</h1>
         <v-form>
-          <v-textarea :value="sheetTemplate" />
+          <v-textarea ref="sheet" :value="sheet" />
         </v-form>
+        <span class="mr-1">add:</span>
+        <a
+          class="addTemplateTag mr-1"
+          v-for="(tag, tag_id) in templateTags"
+          :key="tag_id"
+          @click="addTemplateTag(tag)"
+        >
+          {{ tag }}
+        </a>
       </v-col>
     </v-row>
     <div style="width: 100%; height: 12px;"><!-- spacing between textbox and buttons --></div>
@@ -34,8 +43,20 @@ export default {
   components: { SheetTemplateInfoDialog },
   data () {
     return {
-      sheetTemplate: `{{artist:My Artist}}
-{{title:My Title}}`
+      sheet: `{{artist:My Artist}}
+{{title:My Title}}`,
+      templateTags: {
+        artist: '{{artist:##}}',
+        title: '{{title:##}}',
+        verse: '{{verse:}}',
+        chorus: '{{chorus:}}',
+        bridge: '{{bridge:}}'
+      }
+    }
+  },
+  methods: {
+    addTemplateTag (tag) {
+      this.sheet += '\n' + tag
     }
   }
 }
