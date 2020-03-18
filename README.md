@@ -1,34 +1,26 @@
-# freds-songbook-2
+# Fred's Songbook
 
-## Project setup
-```
-npm install
-```
+## Develop
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+For development documentation, please see:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+* [run the development environment](./docs/run-dev.md)
+* [about state management](./docs/state-management.md)
 
-### Run your unit tests
-```
-npm run test:unit
-```
+## To Do
 
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
+### Refactoring
 
-### Lints and fixes files
-```
-npm run lint
-```
+* [ ] create a real module out of sheet editor
+* [ ] create a real module out of sheet viewer
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### New Features
+
+* [ ] move insert links for template tags to tools drawer in sheet editor
+* [ ] add chord selector to tool drawer
+
+### Product
+
+#### Website Examples
+
+* https://cine-match.com/
