@@ -1,6 +1,6 @@
 <template>
     <div id="sheet-editor-container">
-        <SheetEditor :sheet="this.$props.sheet" id="sheet-editor" />
+        <SheetEditor v-model="this.value" @updateSheet="updateSheet" id="sheet-editor" />
     </div>
 </template>
 
@@ -12,10 +12,11 @@ import SheetEditor from '@/components/SheetEditor.vue'
 export default {
   name: 'EditSheet',
   components: { SheetEditor },
-  props: {
-    sheet: {
-      type: Object,
-      required: true
+  props: ['value'],
+  methods: {
+    updateSheet (sheet) {
+      console.log('updateSheet in EditSheet.vue')
+      this.$emit('updateSheet', sheet)
     }
   }
 }

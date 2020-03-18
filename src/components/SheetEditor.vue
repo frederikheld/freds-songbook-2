@@ -4,7 +4,7 @@
       <v-textarea
         class="sheet"
         ref="sheet"
-        v-model="sheet.code"
+        v-model="sheetCode"
         autofocus
         auto-grow
         full-width
@@ -12,22 +12,6 @@
         no-resize
         solo
       />
-
-      <v-btn
-        fab
-        top
-        right
-        fixed
-        dark
-        color="pink"
-        type="sumbmit"
-        style="z-index:100; margin-top: 12px;"
-        @click="onSubmit"
-        title="Save Changes"
-      >
-        <!-- <v-icon>mdi-content-save</v-icon> -->
-        <v-icon>mdi-download</v-icon>
-    </v-btn>
     </v-form>
   </div>
 </template>
@@ -42,10 +26,20 @@
 <script>
 export default {
   name: 'SheetEditor',
-  props: {
-    sheet: {
-      type: Object,
-      required: true
+  props: ['value'],
+  computed: {
+    sheetCode: {
+      get () {
+        return this.$props.value.code
+      },
+      set (sheetCode) {
+        console.log('set sheet in SheetEditor.vue')
+        const newSheet = this.$props.value
+        console.log('newSheet:', newSheet)
+        newSheet.code = sheetCode
+        console.log('newSheet.code updated:', newSheet)
+        this.$emit('updateSheet', newSheet)
+      }
     }
   }
 }

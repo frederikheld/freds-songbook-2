@@ -1,24 +1,45 @@
 <template>
     <div>
-        <router-view :sheet="sheet(this.$route.params.id)"/>
-        <v-bottom-navigation
-          app
-          grow
-          dark
-        >
-          <v-btn :to="'/sheets/' + this.$route.params.id + '/play'">
-            <span>Play</span>
-            <v-icon>mdi-guitar-acoustic</v-icon>
-          </v-btn>
-          <v-btn :to="'/sheets/' + this.$route.params.id + '/edit'">
-            <span>Edit</span>
-            <v-icon>mdi-file-edit</v-icon>
-          </v-btn>
-          <v-btn :to="'/sheets/' + this.$route.params.id + '/share'">
-            <span>Share</span>
-            <v-icon>mdi-share-variant</v-icon>
-          </v-btn>
-        </v-bottom-navigation>
+
+      <v-btn
+        v-if="pendingEdits"
+        fab
+        top
+        right
+        fixed
+        dark
+        color="pink"
+        type="sumbmit"
+        style="z-index:100; margin-top: 12px;"
+        @click="onBtnSavePressed"
+        title="Save Changes"
+      >
+        <!-- <v-icon>mdi-content-save</v-icon> -->
+        <v-icon>mdi-download</v-icon>
+      </v-btn>
+
+      <!-- <v-banner>{{ localSheet }}</v-banner> -->
+
+      <router-view v-model="localSheet" @updateSheet="updateSheet"/>
+
+      <v-bottom-navigation
+        app
+        grow
+        dark
+      >
+        <v-btn :to="'/sheets/' + this.$route.params.id + '/play'">
+          <span>Play</span>
+          <v-icon>mdi-guitar-acoustic</v-icon>
+        </v-btn>
+        <v-btn :to="'/sheets/' + this.$route.params.id + '/edit'">
+          <span>Edit</span>
+          <v-icon>mdi-file-edit</v-icon>
+        </v-btn>
+        <v-btn :to="'/sheets/' + this.$route.params.id + '/share'">
+          <span>Share</span>
+          <v-icon>mdi-share-variant</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
     </div>
 </template>
 
@@ -26,10 +47,42 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data () {
+    return {
+      localSheet: {}
+    }
+  },
   computed: {
     ...mapGetters([
       'sheet'
-    ])
+    ]),
+    sheetInStore () {
+      return this.sheet(this.$route.params.id)
+    },
+    pendingEdits () {
+      if (
+        this.sheetInStore &&
+        this.sheetInStore.code &&
+        this.localSheet &&
+        this.localSheet.code &&
+        this.localSheet.code !== this.sheetInStore.code
+      ) {
+        return true
+      }
+      return false
+    }
+  },
+  mounted () {
+    this.localSheet = this.sheetInStore
+  },
+  methods: {
+    updateSheet (sheet) {
+      this.localSheet = { ...sheet } // to not just pass the pointer but a clone
+    },
+    onBtnSavePressed () {
+      // this.sheet.code = this.localSheet.code
+      console.log('Changes saved!')
+    }
   }
 }
 

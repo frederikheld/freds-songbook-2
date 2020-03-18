@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <v-card>
-            <v-card-title>{{ this.$props.sheet.artist }}</v-card-title>
-            <v-card-subtitle>{{ this.$props.sheet.title }}</v-card-subtitle>
+            <v-card-title>{{ this.$props.value.artist }}</v-card-title>
+            <v-card-subtitle>{{ this.$props.value.title }}</v-card-subtitle>
         </v-card>
         <v-row>
             <v-col>
@@ -16,9 +16,15 @@
 export default {
   name: 'ShareSheet',
   props: {
-    sheet: {
+    value: {
       type: Object,
-      required: true
+      default: () => {
+        return {
+          title: '',
+          artist: '',
+          code: ''
+        }
+      }
     }
   }
 }
