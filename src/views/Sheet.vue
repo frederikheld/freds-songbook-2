@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-        <router-view />
+    <div>
+        <router-view :sheet="sheet(this.$route.params.id)"/>
         <v-bottom-navigation
           app
           grow
@@ -19,5 +19,22 @@
             <v-icon>mdi-share-variant</v-icon>
           </v-btn>
         </v-bottom-navigation>
-    </v-container>
+    </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters([
+      'sheet'
+    ])
+  }
+}
+
+/**
+ * The sheet is passed to the router view.
+ * This allows each subview view/edit/share to use the same data.
+ */
+</script>

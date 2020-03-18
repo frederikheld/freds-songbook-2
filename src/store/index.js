@@ -1,25 +1,42 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import _ from 'lodash'
+import SheetUtils from './sheet-utils'
+
+const sheetUtils = new SheetUtils()
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    sheetsMeta: {
-      0: {
+    sheetsMeta: [
+      {
+        id: 0,
         artist: 'Rise Against',
         title: 'Hero of War'
       },
-      1: {
+      {
+        id: 1,
         artist: 'Gustav Gründgens',
         title: 'Die Nacht ist nicht allein zum Schlafen da'
       },
-      2: {
+      {
+        id: 2,
         artist: 'The Eagles',
         title: 'Hotel California'
+      },
+      {
+        id: 3,
+        artist: 'Nancy Sinatra',
+        title: 'Bang Bang'
+      },
+      {
+        id: 4,
+        artist: 'Men at Work',
+        title: 'Land Down Under'
       }
-    },
-    sheets: {
+    ],
+    sheetsCode: {
       0: `{{artist:Rise Against}}
 {{title:Hero of War}}
 {{year:2008}}
@@ -183,14 +200,21 @@ Last thing I remember, I was running for the door,
 I had to find the passage back to the place I was before.
 "Relax", said the night man, "we are programmed to receive.
 You can check out any time you like,
-but you can never leave."`
+but you can never leave."`,
+      3: '',
+      4: ''
     },
     songbookName: 'Fred\'s'
   },
   getters: {
+    sheets: function (state) {
+      return state.sheetsMeta
+    },
     sheet: function (state, id) {
       return function (id) {
-        return state.sheets[id]
+        const result = state.sheetsMeta[id]
+        result.code = state.sheetsCode[id]
+        return result
       }
     },
     songbookName: function (state) {
@@ -198,6 +222,35 @@ but you can never leave."`
     }
   },
   mutations: {
+    saveSheet (state, sheet) {
+      // extract meta info:
+      const meta = sheetUtils.extractSheetMeta(sheet.code)
+      const updatedSheetMeta = {
+        id: sheet.id,
+        title: meta.title,
+        artist: meta.artist
+      }
+
+      // save/update sheetMeta
+      if (!sheet.id) {
+        // get highest key from sheets object and add 1 for new id:
+        const maxKey = _.maxBy(state.sheetsMeta, function (o) { return o.id }).id
+        sheet.id = maxKey + 1
+
+        updatedSheetMeta.id = sheet.id
+
+        // save new sheet meta:
+        state.sheetsMeta.push(updatedSheetMeta)
+      } else {
+        // update existing sheet meta object with respective id:
+        state.sheetsMeta.map(o => o.id === sheet.id ? { ...o, ...updatedSheetMeta } : o)
+      }
+
+      // save/update sheetCode:
+      state.sheetsCode[sheet.id] = sheet.code
+
+      console.log(state.sheetsMeta)
+    },
     setSongbookName (state, name) {
       let fixedName
 

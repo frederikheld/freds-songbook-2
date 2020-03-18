@@ -9,6 +9,7 @@
       color="pink"
       style="z-index:100; margin-top: 12px;"
       to="/sheets/create"
+      title="Create new Sheet"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -29,7 +30,7 @@
         >
           <v-list-item-content two-line>
             <v-list-item-title>{{ sheet.title }}</v-list-item-title>
-            <v-list-item-subtitle>{{ sheet.artist }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ sheet.artist }}<div style="float: right;">{{ sheet.id }}</div></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -44,40 +45,17 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Sheets',
   data: () => ({
-    titleLimit: 20,
-    sheets: [
-      {
-        id: 0,
-        artist: 'Rise Against',
-        title: 'Hero of War'
-      },
-      {
-        id: 1,
-        artist: 'Gustav Gründgens',
-        title: 'Die Nacht ist nicht allein zum Schlafen da'
-      },
-      {
-        id: 2,
-        artist: 'The Eagles',
-        title: 'Hotel California'
-      },
-      {
-        id: 3,
-        artist: 'Nancy Sinatra',
-        title: 'Bang Bang'
-      },
-      {
-        id: 4,
-        artist: 'Men at Work',
-        title: 'Land Down Under'
-      }
-    ],
     searchQuery: null
   }),
   computed: {
+    ...mapGetters([
+      'sheets'
+    ]),
     filteredSheets: function () {
       const self = this
 
@@ -87,8 +65,9 @@ export default {
 
       return self.sheets.filter(function (sheet) {
         return (
-          sheet.title.toLowerCase().indexOf(self.searchQuery) !== -1 ||
-          sheet.artist.toLowerCase().indexOf(self.searchQuery) !== -1
+          sheet.title.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1 ||
+          sheet.artist.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1 ||
+          sheet.id === parseInt(self.searchQuery)
         )
       })
     }

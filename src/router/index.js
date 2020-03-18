@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Sheets from '../views/Sheets.vue'
 import Sheet from '../views/Sheet.vue'
-import PlaySheet from '../views/PlaySheet.vue'
+import ViewSheet from '../views/ViewSheet.vue'
 import EditSheet from '../views/EditSheet.vue'
 import ShareSheet from '../views/ShareSheet.vue'
 import CreateSheet from '../views/CreateSheet.vue'
@@ -35,8 +35,8 @@ const routes = [
     children: [
       {
         path: 'play',
-        name: 'PlaySheet',
-        component: PlaySheet
+        name: 'ViewSheet',
+        component: ViewSheet
       },
       {
         path: 'edit',
