@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-// import _ from 'lodash'
+import _ from 'lodash'
 import SheetUtils from './sheet-utils'
 
 const sheetUtils = new SheetUtils()
@@ -228,73 +228,57 @@ but you can never leave."`,
       return state.songbookName
     }
   },
-  mutations: {
-    saveSheet (state, sheet) {
-      // console.log('store::saveSheet called')
-      // console.log('  > current state.sheetsMeta:', state.sheetsMeta)
-      // console.log('  > passed sheet to save:    ', sheet)
-
+  actions: {
+    saveSheet (context, sheet) {
       // separate code from meta:
       const newSheetCode = sheet.code
       const newSheetMeta = sheetUtils.extractSheetMeta(sheet.code)
 
-      // update sheetsMeta object that has repsective id:
+      console.log('sheet in vuex:', sheet)
+
+      if (sheet.id !== undefined) {
+        // use existing id:
+        newSheetMeta.id = sheet.id
+
+        // update sheetsMeta object that has repsective id:
+        this.commit('UPDATE_SHEET_META', newSheetMeta)
+      } else {
+        // find next id in the line:
+        const maxKey = _.maxBy(context.state.sheetsMeta, function (obj) { return obj.id }).id
+        newSheetMeta.id = maxKey + 1
+
+        // create a new sheet meta object with the given id:
+        context.commit('CREATE_SHEET_META', newSheetMeta)
+      }
+
+      console.log('sheetId', newSheetMeta.id)
+
+      // update sheetsCode object that has respective id:
+      this.commit('SAVE_SHEET_CODE', {
+        code: newSheetCode,
+        id: newSheetMeta.id
+      })
+
+      return newSheetMeta.id
+    }
+  },
+  mutations: {
+    CREATE_SHEET_META (state, newSheetMeta) {
+      state.sheetsMeta.push(newSheetMeta)
+    },
+    UPDATE_SHEET_META (state, newSheetMeta) {
       state.sheetsMeta = state.sheetsMeta.map((obj) => {
-        if (obj.id === sheet.id) {
+        if (obj.id === newSheetMeta.id) {
           return { ...obj, ...newSheetMeta }
         } else {
           return obj
         }
       })
-
-      // update sheetsCode object that has respective id:
-      state.sheetsCode[sheet.id] = newSheetCode
     },
-    // saveSheet (state, sheet) {
-    //   console.log('  > state.sheetsMeta:', state.sheetsMeta)
-    //   // console.log('store::saveSheet called with sheet:', sheet)
-    //   // extract meta info:
-    //   const meta = sheetUtils.extractSheetMeta(sheet.code)
-    //   const updatedSheetMeta = { ...sheet, ...meta }
-
-    //   // remove fields that are not part of meta information:
-    //   delete updatedSheetMeta.code
-
-    //   console.log('  > updatedSheetMeta:', updatedSheetMeta)
-    //   // console.log('    > updatedSheetMeta.id =', updatedSheetMeta.id)
-
-    //   // save/update sheetMeta
-    //   if (updatedSheetMeta.id === undefined) {
-    //     console.log('  > no id yet')
-    //     // get highest key from sheets object and add 1 for new id:
-    //     const maxKey = _.maxBy(state.sheetsMeta, function (o) { return o.id }).id
-    //     updatedSheetMeta.id = maxKey + 1
-
-    //     // save new sheet meta:
-    //     state.sheetsMeta.push(updatedSheetMeta)
-    //   } else {
-    //     console.log('  > id exists:', sheet.id)
-    //     // update the existing sheet meta object that has the respective id:
-    //     // state.sheetsMeta.map(o => o.id === sheet.id ? { ...o, ...updatedSheetMeta } : o)
-    //     console.log('  > state.sheetsMeta:', state.sheetsMeta)
-    //     state.sheetsMeta.map((obj) => {
-    //       if (obj.id === sheet.id) {
-    //         const newObject = { ...obj, ...updatedSheetMeta }
-    //         console.log('    > oldObject:', obj)
-    //         console.log('    > updatedObject:', newObject)
-    //         return newObject
-    //       } else {
-    //         return obj
-    //       }
-    //     })
-    //   }
-
-    //   // save/update sheetCode:
-    //   state.sheetsCode[sheet.id] = sheet.code
-
-    //   console.log(state.sheetsMeta)
-    // },
-    setSongbookName (state, name) {
+    SAVE_SHEET_CODE (state, newSheet) {
+      state.sheetsCode[newSheet.id] = newSheet.code
+    },
+    SAVE_SONGBOOK_NAME (state, name) {
       let fixedName
 
       // wrongfully ends with an apostrophe:
@@ -313,8 +297,6 @@ but you can never leave."`,
 
       state.songbookName = fixedName
     }
-  },
-  actions: {
   },
   modules: {
   }

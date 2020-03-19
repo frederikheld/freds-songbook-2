@@ -83,7 +83,7 @@ export default {
       this.localSheet = { ...sheet }
     },
     onBtnSavePressed () {
-      this.$store.commit('saveSheet', { ...this.localSheet })
+      this.$store.dispatch('saveSheet', { ...this.localSheet })
       this.loadSheetFromStore()
     }
   }

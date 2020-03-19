@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     saveSettings () {
-      this.$store.commit('setSongbookName', this.localSongbookName)
+      this.$store.commit('SAVE_SONGBOOK_NAME', this.localSongbookName)
       this.localSongbookName = this.songbookName
     }
   }
