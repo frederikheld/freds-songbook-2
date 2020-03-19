@@ -33,11 +33,8 @@ export default {
         return this.$props.value.code
       },
       set (sheetCode) {
-        console.log('set sheet in SheetEditor.vue')
         const newSheet = this.$props.value
-        console.log('newSheet:', newSheet)
         newSheet.code = sheetCode
-        console.log('newSheet.code updated:', newSheet)
         this.$emit('updateSheet', newSheet)
       }
     }

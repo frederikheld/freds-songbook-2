@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import _ from 'lodash'
+// import _ from 'lodash'
 import SheetUtils from './sheet-utils'
 
 const sheetUtils = new SheetUtils()
@@ -212,7 +212,7 @@ but you can never leave."`,
     },
     sheet: function (state, id) {
       return function (id) {
-        const result = state.sheetsMeta[id]
+        const result = { ...state.sheetsMeta[id] }
         result.code = state.sheetsCode[id]
         return result
       }
@@ -223,34 +223,70 @@ but you can never leave."`,
   },
   mutations: {
     saveSheet (state, sheet) {
-      // extract meta info:
-      const meta = sheetUtils.extractSheetMeta(sheet.code)
-      const updatedSheetMeta = {
-        id: sheet.id,
-        title: meta.title,
-        artist: meta.artist
-      }
+      // console.log('store::saveSheet called')
+      // console.log('  > current state.sheetsMeta:', state.sheetsMeta)
+      // console.log('  > passed sheet to save:    ', sheet)
 
-      // save/update sheetMeta
-      if (!sheet.id) {
-        // get highest key from sheets object and add 1 for new id:
-        const maxKey = _.maxBy(state.sheetsMeta, function (o) { return o.id }).id
-        sheet.id = maxKey + 1
+      // separate code from meta:
+      const newSheetCode = sheet.code
+      const newSheetMeta = sheetUtils.extractSheetMeta(sheet.code)
 
-        updatedSheetMeta.id = sheet.id
+      // update sheetsMeta object that has repsective id:
+      state.sheetsMeta = state.sheetsMeta.map((obj) => {
+        if (obj.id === sheet.id) {
+          return { ...obj, ...newSheetMeta }
+        } else {
+          return obj
+        }
+      })
 
-        // save new sheet meta:
-        state.sheetsMeta.push(updatedSheetMeta)
-      } else {
-        // update existing sheet meta object with respective id:
-        state.sheetsMeta.map(o => o.id === sheet.id ? { ...o, ...updatedSheetMeta } : o)
-      }
-
-      // save/update sheetCode:
-      state.sheetsCode[sheet.id] = sheet.code
-
-      console.log(state.sheetsMeta)
+      // update sheetsCode object that has respective id:
+      state.sheetsCode[sheet.id] = newSheetCode
     },
+    // saveSheet (state, sheet) {
+    //   console.log('  > state.sheetsMeta:', state.sheetsMeta)
+    //   // console.log('store::saveSheet called with sheet:', sheet)
+    //   // extract meta info:
+    //   const meta = sheetUtils.extractSheetMeta(sheet.code)
+    //   const updatedSheetMeta = { ...sheet, ...meta }
+
+    //   // remove fields that are not part of meta information:
+    //   delete updatedSheetMeta.code
+
+    //   console.log('  > updatedSheetMeta:', updatedSheetMeta)
+    //   // console.log('    > updatedSheetMeta.id =', updatedSheetMeta.id)
+
+    //   // save/update sheetMeta
+    //   if (updatedSheetMeta.id === undefined) {
+    //     console.log('  > no id yet')
+    //     // get highest key from sheets object and add 1 for new id:
+    //     const maxKey = _.maxBy(state.sheetsMeta, function (o) { return o.id }).id
+    //     updatedSheetMeta.id = maxKey + 1
+
+    //     // save new sheet meta:
+    //     state.sheetsMeta.push(updatedSheetMeta)
+    //   } else {
+    //     console.log('  > id exists:', sheet.id)
+    //     // update the existing sheet meta object that has the respective id:
+    //     // state.sheetsMeta.map(o => o.id === sheet.id ? { ...o, ...updatedSheetMeta } : o)
+    //     console.log('  > state.sheetsMeta:', state.sheetsMeta)
+    //     state.sheetsMeta.map((obj) => {
+    //       if (obj.id === sheet.id) {
+    //         const newObject = { ...obj, ...updatedSheetMeta }
+    //         console.log('    > oldObject:', obj)
+    //         console.log('    > updatedObject:', newObject)
+    //         return newObject
+    //       } else {
+    //         return obj
+    //       }
+    //     })
+    //   }
+
+    //   // save/update sheetCode:
+    //   state.sheetsCode[sheet.id] = sheet.code
+
+    //   console.log(state.sheetsMeta)
+    // },
     setSongbookName (state, name) {
       let fixedName
 

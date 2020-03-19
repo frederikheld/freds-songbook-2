@@ -18,9 +18,7 @@
         <v-icon>mdi-download</v-icon>
       </v-btn>
 
-      <!-- <v-banner>{{ localSheet }}</v-banner> -->
-
-      <router-view v-model="localSheet" @updateSheet="updateSheet"/>
+      <router-view v-model="localSheet" @updateSheet="updateLocalSheet"/>
 
       <v-bottom-navigation
         app
@@ -28,15 +26,15 @@
         dark
       >
         <v-btn :to="'/sheets/' + this.$route.params.id + '/play'">
-          <span>Play</span>
+          <!-- <span>Play</span> -->
           <v-icon>mdi-guitar-acoustic</v-icon>
         </v-btn>
         <v-btn :to="'/sheets/' + this.$route.params.id + '/edit'">
-          <span>Edit</span>
+          <!-- <span>Edit</span> -->
           <v-icon>mdi-file-edit</v-icon>
         </v-btn>
         <v-btn :to="'/sheets/' + this.$route.params.id + '/share'">
-          <span>Share</span>
+          <!-- <span>Share</span> -->
           <v-icon>mdi-share-variant</v-icon>
         </v-btn>
       </v-bottom-navigation>
@@ -73,15 +71,20 @@ export default {
     }
   },
   mounted () {
-    this.localSheet = this.sheetInStore
+    this.loadSheetFromStore()
+    console.log('Sheet mounted. this.sheetsInStore:', this.sheetInStore)
   },
   methods: {
-    updateSheet (sheet) {
-      this.localSheet = { ...sheet } // to not just pass the pointer but a clone
+    loadSheetFromStore () {
+      console.log('Sheet.vue: loading sheet from store')
+      this.localSheet = this.sheetInStore
+    },
+    updateLocalSheet (sheet) {
+      this.localSheet = { ...sheet }
     },
     onBtnSavePressed () {
-      // this.sheet.code = this.localSheet.code
-      console.log('Changes saved!')
+      this.$store.commit('saveSheet', { ...this.localSheet })
+      this.loadSheetFromStore()
     }
   }
 }

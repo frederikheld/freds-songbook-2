@@ -15,7 +15,6 @@ export default {
   props: ['value'],
   methods: {
     updateSheet (sheet) {
-      console.log('updateSheet in EditSheet.vue')
       this.$emit('updateSheet', sheet)
     }
   }
