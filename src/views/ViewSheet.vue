@@ -1,16 +1,18 @@
 <template>
-    <v-container>
-        <h1 class="title">{{ value.title }}</h1>
-        <h2 class="subtitle-1">{{ value.artist }}<span style="float: right;">{{ value.id }}</span></h2>
-        <div class="sheet mt-4">
+    <div>
+        <v-container>
+            <h1 class="title">{{ value.title }}</h1>
+            <h2 class="subtitle-1">{{ value.artist }}<span style="float: right;">{{ value.id }}</span></h2>
+        </v-container>
+        <div class="pa-3" id="view-sheet">
             <pre>{{ value.code }}</pre>
         </div>
-    </v-container>
+    </div>
 </template>
 
 <style scoped>
-.sheet {
-    overflow-x: scroll;
+#view-sheet {
+    overflow: auto;
 }
 </style>
 

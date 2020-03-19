@@ -208,8 +208,10 @@ I had to find the passage back to the place I was before.
 "Relax", said the night man, "we are programmed to receive.
 You can check out any time you like,
 but you can never leave."`,
-      3: '',
-      4: ''
+      3: `{{title:Bang Bang}}
+{{artist:Nancy Sinatra}}`,
+      4: `{{title:Land Down Under}}
+{{artist:Men at Work}}`
     },
     songbookName: 'Fred\'s'
   },
@@ -244,8 +246,12 @@ but you can never leave."`,
         this.commit('UPDATE_SHEET_META', newSheetMeta)
       } else {
         // find next id in the line:
-        const maxKey = _.maxBy(context.state.sheetsMeta, function (obj) { return obj.id }).id
-        newSheetMeta.id = maxKey + 1
+        if (context.state.sheetsMeta.length > 0) {
+          const maxKey = _.maxBy(context.state.sheetsMeta, function (obj) { return obj.id }).id
+          newSheetMeta.id = maxKey + 1
+        } else {
+          newSheetMeta.id = 0
+        }
 
         // create a new sheet meta object with the given id:
         context.commit('CREATE_SHEET_META', newSheetMeta)

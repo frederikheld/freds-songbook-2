@@ -1,10 +1,22 @@
 <template>
-    <div id="sheet-editor-container">
-        <SheetEditor v-model="this.value" @updateSheet="updateSheet" id="sheet-editor" />
+    <div>
+    <v-container>
+        <h1 class="title">{{ value.title }}</h1>
+        <h2 class="subtitle-1">{{ value.artist }}<span style="float: right;">{{ value.id }}</span></h2>
+    </v-container>
+    <SheetEditor
+      v-model="this.value"
+      @updateSheet="updateSheet"
+      id="edit-sheet"
+    />
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#edit-sheet {
+  overflow: auto;
+ }
+</style>
 
 <script>
 import SheetEditor from '@/components/SheetEditor.vue'

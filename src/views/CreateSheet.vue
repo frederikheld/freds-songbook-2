@@ -7,6 +7,7 @@
           <v-text-field
             v-model="title"
             label="Title"
+            autofocus
           />
         </v-row>
         <v-row>
