@@ -60,9 +60,7 @@ export default {
     pendingEdits () {
       if (
         this.sheetInStore &&
-        this.sheetInStore.code &&
         this.localSheet &&
-        this.localSheet.code &&
         this.localSheet.code !== this.sheetInStore.code
       ) {
         return true
