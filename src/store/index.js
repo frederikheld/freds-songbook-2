@@ -1,13 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 // import _ from 'lodash'
 import SheetUtils from './sheet-utils'
 
 const sheetUtils = new SheetUtils()
 
+const vuexLocal = new VuexPersistence({
+  key: 'freds-songbook',
+  storage: window.localStorage
+})
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [vuexLocal.plugin],
   state: {
     sheetsMeta: [
       {

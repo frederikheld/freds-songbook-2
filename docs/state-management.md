@@ -12,7 +12,7 @@
 
 * Depending on the app mode, the state is being kept in sync with
 
-    * the local storage in the free version
+    * the local storage in the free version (via 'vuex-persist')
     * Firestore in the paid version
     
     to persist state if the app is being closed.
