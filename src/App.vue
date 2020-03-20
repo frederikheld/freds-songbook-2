@@ -1,69 +1,7 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      left
-      clipped
-    >
-      <v-list>
-        <v-list-item
-          link
-          to="/"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
 
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item
-          link
-          to="/sheets"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-book-open-page-variant</v-icon>
-          </v-list-item-action>
-
-          <v-list-item-content>
-            <v-list-item-title>Sheets</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-      <template v-slot:append>
-        <v-list>
-          <v-list-item
-            link
-            to="/settings"
-          >
-            <v-list-item-action>
-              <v-icon>mdi-hammer-wrench</v-icon>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item
-            link
-            to="/about"
-          >
-            <v-list-item-action>
-              <v-icon>mdi-information</v-icon>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>About</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </template>
-    </v-navigation-drawer>
+    <MainNavigationDrawer @drawerStateChanged="setDrawer" v-model="drawerOpen" />
 
     <v-app-bar
       app
@@ -74,7 +12,7 @@
       >
         <v-icon
           v-if="['Home', 'Sheets', 'Settings', 'About'].includes($route.name)"
-          @click.stop="drawer = !drawer"
+          @click.stop="drawerOpen = !drawerOpen"
         >mdi-menu</v-icon>
 
         <v-btn
@@ -99,18 +37,25 @@
 </template>
 
 <script>
+import MainNavigationDrawer from '@/components/MainNavigationDrawer.vue'
+
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
-
+  components: { MainNavigationDrawer },
   data: () => ({
-    drawer: undefined
+    drawerOpen: false
   }),
   computed: {
     ...mapGetters([
       'songbookName'
     ])
+  },
+  methods: {
+    setDrawer (value) {
+      this.drawerOpen = value
+    }
   }
 }
 </script>
