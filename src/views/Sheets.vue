@@ -76,7 +76,7 @@
       top
       right
       color="pink"
-      style="z-index:100; margin-top: 12px;"
+      style="z-index: 5; margin-top: 12px;"
       to="/sheets/create"
       title="Create new Sheet"
     >

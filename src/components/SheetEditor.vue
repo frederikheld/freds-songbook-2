@@ -17,7 +17,7 @@
 </template>
 
 <style scoped>
-.sheet textarea { }
+/* .sheet textarea { } */
 </style>
 
 <script>
