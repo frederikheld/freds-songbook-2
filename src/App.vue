@@ -1,7 +1,8 @@
 <template>
   <v-app>
 
-    <MainNavigationDrawer @drawerStateChanged="setDrawer" v-model="drawerOpen" />
+    <!-- <MainNavigationDrawer @drawerStateChanged="setMainMenu" v-model="mainMenuOpen" /> -->
+    <MainMenuDropdown @dropdownStateChanged="setMainMenu" v-model="mainMenuOpen" />
 
     <v-app-bar
       app
@@ -11,8 +12,8 @@
       <v-app-bar-nav-icon
       >
         <v-icon
-          v-if="['Home', 'Sheets', 'Settings', 'About'].includes($route.name)"
-          @click.stop="drawerOpen = !drawerOpen"
+          v-if="['Home', 'Sheets'].includes($route.name)"
+          @click.stop="mainMenuOpen = !mainMenuOpen"
         >mdi-menu</v-icon>
 
         <v-btn
@@ -21,7 +22,8 @@
           to="/sheets"
           exact
         >
-          <v-icon>mdi-book-open-page-variant</v-icon>
+          <!-- <v-icon>mdi-book-open-page-variant</v-icon> -->
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
       </v-app-bar-nav-icon>
 
@@ -37,15 +39,17 @@
 </template>
 
 <script>
-import MainNavigationDrawer from '@/components/MainNavigationDrawer.vue'
+// import MainNavigationDrawer from '@/components/MainNavigationDrawer.vue'
+import MainMenuDropdown from '@/components/MainMenuDropdown.vue'
 
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
-  components: { MainNavigationDrawer },
+  // components: { MainNavigationDrawer },
+  components: { MainMenuDropdown },
   data: () => ({
-    drawerOpen: false
+    mainMenuOpen: false
   }),
   computed: {
     ...mapGetters([
@@ -53,8 +57,8 @@ export default {
     ])
   },
   methods: {
-    setDrawer (value) {
-      this.drawerOpen = value
+    setMainMenu (value) {
+      this.mainMenuOpen = value
     }
   }
 }
