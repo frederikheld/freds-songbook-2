@@ -4,6 +4,7 @@
       v-model="drawer"
       app
       left
+      clipped
     >
       <v-list>
         <v-list-item
@@ -104,7 +105,7 @@ export default {
   name: 'App',
 
   data: () => ({
-    drawer: false
+    drawer: undefined
   }),
   computed: {
     ...mapGetters([
