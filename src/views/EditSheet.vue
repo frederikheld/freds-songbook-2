@@ -12,12 +12,6 @@
     </div>
 </template>
 
-<style scoped>
-#edit-sheet {
-  overflow: auto;
- }
-</style>
-
 <script>
 import SheetEditor from '@/components/SheetEditor.vue'
 

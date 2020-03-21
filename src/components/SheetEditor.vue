@@ -3,6 +3,7 @@
     <v-form>
       <div
         id="sheet-container"
+        @click="setFocusToTextarea()"
       >
         <v-textarea
           id="sheet"
@@ -11,7 +12,7 @@
           hide-details
           no-resize
           loading="false"
-          style="float: left; width: 100%; overflow-y: hidden; padding: 12px; outline: none;"
+          style="float: left; width: 100%; overflow-y: hidden; padding: 12px; outline: none; font-family: Courier New, Courier, monospace;"
           :rows="getNumberOfLines(sheetCode)"
         />
       </div>
@@ -40,6 +41,8 @@
   float: left;
   width: 100%;
   overflow-y: auto;
+  cursor: text;
+  box-shadow: inset 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
 }
 </style>
 
@@ -85,6 +88,13 @@ export default {
        */
       if (text && typeof text === 'string') {
         return text.replace(/\r\n/g, '\n').split('\n').length // replace makes sure, that this works with line breaks of different OS
+      }
+    },
+    setFocusToTextarea () {
+      const textLength = this.$refs.sheet.$el.querySelector('textarea').value.length
+      if (this.$refs.sheet.$el.querySelector('textarea') !== document.activeElement) {
+        this.$refs.sheet.$el.querySelector('textarea').focus()
+        this.$refs.sheet.$el.querySelector('textarea').setSelectionRange(textLength, textLength)
       }
     }
   }
