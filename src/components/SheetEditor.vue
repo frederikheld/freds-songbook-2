@@ -1,31 +1,46 @@
 <template>
   <div>
     <v-form>
-      <v-textarea
-        class="sheet"
-        ref="sheet"
-        v-model="sheetCode"
-        autofocus
-        auto-grow
-        full-width
-        hide-details
-        no-resize
-        solo
-      />
+      <div
+        id="sheet-container"
+      >
+        <v-textarea
+          id="sheet"
+          ref="sheet"
+          v-model="sheetCode"
+          hide-details
+          no-resize
+          loading="false"
+          style="float: left; width: 100%; overflow-y: hidden; padding: 12px; outline: none;"
+          :rows="getNumberOfLines(sheetCode)"
+        />
+      </div>
     </v-form>
     <TemplateTagPicker
       @tagSelected="insertTemplateTag"
       bottom
       right
       fixed
-      style="margin-bottom: 54px;"
+      id="template-tag-picker"
       color="primary"
+      retain-focus-on-click
     />
   </div>
 </template>
 
 <style scoped>
-/* .sheet textarea { } */
+#template-tag-picker {
+  margin-right: 8px;
+  margin-bottom: 64px;
+}
+
+#sheet-container {
+  height: 100%;
+  min-height: calc(100vh - 48px - 60px - 56px - 32px);
+  float: left;
+  width: 100%;
+  overflow-y: auto;
+}
 </style>
 
 <script>
@@ -34,6 +49,9 @@ import TemplateTagPicker from '@/components/TemplateTagPicker.vue'
 export default {
   name: 'SheetEditor',
   props: ['value'],
+  data () {
+    return { }
+  },
   components: { TemplateTagPicker },
   computed: {
     sheetCode: {
@@ -58,6 +76,16 @@ export default {
         this.$refs.sheet.$el.querySelector('textarea').focus()
         this.$refs.sheet.$el.querySelector('textarea').setSelectionRange((firstHalf + tag).length, (firstHalf + tag).length)
       })
+    },
+    getNumberOfLines (text) {
+      /** replacement for the 'auto-grow' property of v-textarea
+       *  as this feature has issue with maintaining the scroll
+       *  position of the textarea.
+       *  Source: https://github.com/vuetifyjs/vuetify/issues/5314
+       */
+      if (text && typeof text === 'string') {
+        return text.replace(/\r\n/g, '\n').split('\n').length // replace makes sure, that this works with line breaks of different OS
+      }
     }
   }
 }
