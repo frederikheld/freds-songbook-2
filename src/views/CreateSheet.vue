@@ -1,7 +1,9 @@
 <template>
   <v-container>
     <h1 class="title">Create new Sheet</h1>
-    <v-form @submit.prevent>
+    <v-form
+      @submit.prevent
+    >
       <v-col>
         <v-row>
           <v-text-field
@@ -22,6 +24,7 @@
             color="secondary"
             @click="onCancel"
             class="mr-3"
+            text
           >
             Cancel
           </v-btn>
