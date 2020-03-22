@@ -18,7 +18,7 @@
         <v-icon>mdi-download</v-icon>
       </v-btn>
 
-      <router-view v-model="localSheet" @updateSheet="updateLocalSheet"/>
+      <router-view v-model="localSheet" @update-sheet="updateLocalSheet"/>
 
       <v-bottom-navigation
         app
@@ -70,11 +70,9 @@ export default {
   },
   mounted () {
     this.loadSheetFromStore()
-    console.log('Sheet mounted. this.sheetsInStore:', this.sheetInStore)
   },
   methods: {
     loadSheetFromStore () {
-      console.log('Sheet.vue: loading sheet from store')
       this.localSheet = this.sheetInStore
     },
     updateLocalSheet (sheet) {

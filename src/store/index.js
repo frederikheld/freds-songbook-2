@@ -236,8 +236,6 @@ but you can never leave."`,
       const newSheetCode = sheet.code
       const newSheetMeta = sheetUtils.extractSheetMeta(sheet.code)
 
-      console.log('sheet in vuex:', sheet)
-
       if (sheet.id !== undefined) {
         // use existing id:
         newSheetMeta.id = sheet.id
@@ -256,8 +254,6 @@ but you can never leave."`,
         // create a new sheet meta object with the given id:
         context.commit('CREATE_SHEET_META', newSheetMeta)
       }
-
-      console.log('sheetId', newSheetMeta.id)
 
       // update sheetsCode object that has respective id:
       this.commit('SAVE_SHEET_CODE', {

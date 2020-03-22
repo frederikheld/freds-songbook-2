@@ -6,7 +6,7 @@
     </v-container>
     <SheetEditor
       v-model="this.value"
-      @updateSheet="updateSheet"
+      @update-sheet="updateSheet"
       id="edit-sheet"
     />
     </div>
@@ -21,7 +21,7 @@ export default {
   props: ['value'],
   methods: {
     updateSheet (sheet) {
-      this.$emit('updateSheet', sheet)
+      this.$emit('update-sheet', sheet)
     }
   }
 }

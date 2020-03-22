@@ -18,7 +18,7 @@
       </div>
     </v-form>
     <TemplateTagPicker
-      @tagSelected="insertTemplateTag"
+      @tag-selected="insertTemplateTag"
       bottom
       right
       fixed
@@ -64,7 +64,7 @@ export default {
       set (sheetCode) {
         const newSheet = this.$props.value
         newSheet.code = sheetCode
-        this.$emit('updateSheet', newSheet)
+        this.$emit('update-sheet', newSheet)
       }
     }
   },
@@ -72,12 +72,12 @@ export default {
     insertTemplateTag (tag) {
       const firstHalf = this.sheetCode.substr(0, this.$refs.sheet.$el.querySelector('textarea').selectionStart)
       const secondHalf = this.sheetCode.substr(this.$refs.sheet.$el.querySelector('textarea').selectionEnd)
-      this.sheetCode = firstHalf + tag + secondHalf
+      this.sheetCode = firstHalf + tag.text + secondHalf
 
       this.$nextTick(function () {
         // set cursors at the end of the newly inserted text:
         this.$refs.sheet.$el.querySelector('textarea').focus()
-        this.$refs.sheet.$el.querySelector('textarea').setSelectionRange((firstHalf + tag).length, (firstHalf + tag).length)
+        this.$refs.sheet.$el.querySelector('textarea').setSelectionRange((firstHalf + tag.text).length + tag.selectionStart, (firstHalf + tag.text).length + tag.selectionEnd)
       })
     },
     getNumberOfLines (text) {
