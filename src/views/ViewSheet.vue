@@ -1,13 +1,21 @@
 <template>
-    <div>
-        <v-container>
-            <h1 class="title">{{ value.title }}</h1>
-            <h2 class="subtitle-1">{{ value.artist }}<span style="float: right;">{{ value.id }}</span></h2>
-        </v-container>
-        <div class="pa-3" id="view-sheet">
-            <pre>{{ value.code }}</pre>
-        </div>
-    </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <SheetHeader
+          :sheet="this.value"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <SheetViewer
+          :sheet="this.value"
+          class="mx-0"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
@@ -17,20 +25,12 @@
 </style>
 
 <script>
+import SheetHeader from '@/components/sheets/SheetHeader.vue'
+import SheetViewer from '@/components/SheetViewer.vue'
+
 export default {
   name: 'ViewSheet',
+  components: { SheetHeader, SheetViewer },
   props: ['value']
-  // props: {
-  //   value: {
-  //     type: Object,
-  //     default: () => {
-  //       return {
-  //         title: '',
-  //         artist: '',
-  //         code: ''
-  //       }
-  //     }
-  //   }
-  // }
 }
 </script>

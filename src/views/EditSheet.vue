@@ -1,23 +1,35 @@
 <template>
-    <div>
-    <v-container>
-        <h1 class="title">{{ value.title }}</h1>
-        <h2 class="subtitle-1">{{ value.artist }}<span style="float: right;">{{ value.id }}</span></h2>
-    </v-container>
-    <SheetEditor
-      v-model="this.value"
-      @update-sheet="updateSheet"
-      id="edit-sheet"
-    />
-    </div>
+  <v-container
+    class="pb-0"
+  >
+    <v-row>
+      <v-col>
+        <SheetHeader
+            :sheet="this.value"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        class="px-0 pb-0"
+      >
+        <SheetEditor
+          v-model="this.value"
+          @update-sheet="updateSheet"
+          id="edit-sheet"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
+import SheetHeader from '@/components/sheets/SheetHeader.vue'
 import SheetEditor from '@/components/SheetEditor.vue'
 
 export default {
   name: 'EditSheet',
-  components: { SheetEditor },
+  components: { SheetHeader, SheetEditor },
   props: ['value'],
   methods: {
     updateSheet (sheet) {
