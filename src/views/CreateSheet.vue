@@ -59,7 +59,7 @@ export default {
       let code = '{{title:' + this.title + '}}\n'
       code += '{{artist:' + this.artist + '}}'
       const newId = await this.$store.dispatch('saveSheet', { code: code })
-      this.$router.push('/sheets/' + newId)
+      this.$router.push('/sheets/' + newId + '/edit')
     }
   }
 }
