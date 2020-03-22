@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import _ from 'lodash'
-import SheetUtils from './sheet-utils'
+import SheetParser from '../lib/SheetParser'
 
-const sheetUtils = new SheetUtils()
+const sheetUtils = new SheetParser()
 
 const vuexLocal = new VuexPersistence({
   key: 'freds-songbook',

@@ -1,4 +1,4 @@
-module.exports = class SheetUtils {
+module.exports = class SheetParser {
   extractSheetMeta (sheet) {
     return {
       artist: sheet.match(/\{\{artist:(.*?)\}\}/)[1] || '<artist>',
