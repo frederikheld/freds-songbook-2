@@ -25,7 +25,7 @@
 </style>
 
 <script>
-import SheetHeader from '@/components/sheets/SheetHeader.vue'
+import SheetHeader from '@/components/sheet/SheetHeader.vue'
 import SheetViewer from '@/components/SheetViewer.vue'
 
 export default {

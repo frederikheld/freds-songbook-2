@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import SheetHeader from '@/components/sheets/SheetHeader.vue'
+import SheetHeader from '@/components/sheet/SheetHeader.vue'
 import SheetEditor from '@/components/SheetEditor.vue'
 
 export default {

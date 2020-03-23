@@ -24,6 +24,7 @@
         app
         grow
         dark
+        fixed
       >
         <v-btn :to="'/sheets/' + this.$route.params.id + '/play'">
           <!-- <span>Play</span> -->
