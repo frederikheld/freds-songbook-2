@@ -95,33 +95,37 @@ module.exports = class SheetParser {
       result.source = {
         text: sourceMatch[1]
       }
+
+      if (sourceMatch[1].search(regex.isHyperlink) >= 0) {
+        result.source.type = 'hyperlink'
+        result.source.hyperlink = sourceMatch[1]
+        result.source.text = sourceMatch[1].match(regex.fullDomain)[2]
+      }
     }
 
     const infoMatch = sheet.match(/\{\{info:(.*?)\}\}/)
     if (infoMatch) {
       result.info = {
-        text: infoMatch[3],
-        modifier: infoMatch[2]
+        text: infoMatch[1]
       }
 
-      if (infoMatch[3].search(regex.isHyperlink) >= 0) {
+      if (infoMatch[1].search(regex.isHyperlink) >= 0) {
         result.info.type = 'hyperlink'
-        result.info.hyperlink = infoMatch[3]
-        result.info.text = infoMatch[3].match(regex.fullDomain)[2]
+        result.info.hyperlink = infoMatch[1]
+        result.info.text = infoMatch[1].match(regex.fullDomain)[2]
       }
     }
 
     const listenMatch = sheet.match(/\{\{listen:(.*?)\}\}/)
     if (listenMatch) {
       result.listen = {
-        text: listenMatch[3],
-        modifier: listenMatch[2]
+        text: listenMatch[1]
       }
 
-      if (listenMatch[3].search(regex.isHyperlink) >= 0) {
+      if (listenMatch[1].search(regex.isHyperlink) >= 0) {
         result.listen.type = 'hyperlink'
-        result.listen.hyperlink = listenMatch[3]
-        result.listen.text = listenMatch[3].match(regex.fullDomain)[2]
+        result.listen.hyperlink = listenMatch[1]
+        result.listen.text = listenMatch[1].match(regex.fullDomain)[2]
       }
     }
 
