@@ -138,6 +138,30 @@ module.exports = class SheetParser {
 
     return result
   }
+
+  renderHTML (sheet) {
+    const regex = {
+      nonEmptyChord: /\[([^[\]]+?)\]/g
+    }
+
+    const linesRaw = sheet.replace('\r\n', '\n').split('\n')
+
+    console.log('linesRaw', linesRaw)
+
+    const lines = []
+    for (const i in linesRaw) {
+      const line = linesRaw[i]
+      // ignore all meta info:
+      if (line.search(/{{.*}}/) >= 0) {
+        continue
+      }
+      console.log(line)
+
+      lines.push('<p>' + line.replace(regex.nonEmptyChord, '<span class="chord">$1</span>') + '</p>')
+    }
+
+    return lines.join('\n')
+  }
 }
 
 /**

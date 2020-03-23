@@ -4,7 +4,7 @@ import VuexPersistence from 'vuex-persist'
 import _ from 'lodash'
 import SheetParser from '../lib/SheetParser'
 
-const sheetUtils = new SheetParser()
+const sheetParser = new SheetParser()
 
 const vuexLocal = new VuexPersistence({
   key: 'freds-songbook',
@@ -213,6 +213,13 @@ but you can never leave."`,
       4: `{{title:Land Down Under}}
 {{artist:Men at Work}}`
     },
+    sheetsHtml: {
+      0: '',
+      1: '',
+      2: '',
+      3: '',
+      4: ''
+    },
     songbookName: 'Fred\'s'
   },
   getters: {
@@ -223,6 +230,7 @@ but you can never leave."`,
       return function (id) {
         const result = { ...state.sheetsMeta[id] }
         result.code = state.sheetsCode[id]
+        result.html = state.sheetsHtml[id]
         return result
       }
     },
@@ -234,7 +242,9 @@ but you can never leave."`,
     saveSheet (context, sheet) {
       // separate code from meta:
       const newSheetCode = sheet.code
-      const newSheetMeta = sheetUtils.extractSheetMeta(sheet.code)
+      const newSheetMeta = sheetParser.extractSheetMeta(sheet.code)
+      const newSheetHtml = sheetParser.renderHTML(sheet.code)
+      console.log('newSheetHtml:', newSheetHtml)
 
       if (sheet.id !== undefined) {
         // use existing id:
@@ -261,6 +271,12 @@ but you can never leave."`,
         id: newSheetMeta.id
       })
 
+      // update sheetHtml object that has respective id:
+      this.commit('SAVE_SHEET_HTML', {
+        html: newSheetHtml,
+        id: newSheetMeta.id
+      })
+
       return newSheetMeta.id
     }
   },
@@ -279,6 +295,9 @@ but you can never leave."`,
     },
     SAVE_SHEET_CODE (state, newSheet) {
       state.sheetsCode[newSheet.id] = newSheet.code
+    },
+    SAVE_SHEET_HTML (state, newSheet) {
+      state.sheetsHtml[newSheet.id] = newSheet.html
     },
     SAVE_SONGBOOK_NAME (state, name) {
       let fixedName
