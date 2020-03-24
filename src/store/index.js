@@ -220,7 +220,8 @@ but you can never leave."`,
       3: '',
       4: ''
     },
-    songbookName: 'Fred\'s'
+    songbookName: 'Fred\'s',
+    sheetChordSize: 100
   },
   getters: {
     sheets: function (state) {
@@ -233,6 +234,9 @@ but you can never leave."`,
         result.html = state.sheetsHtml[id]
         return result
       }
+    },
+    sheetChordSize: function (state) {
+      return state.sheetChordSize // in percent relative to text [50 .. 150]
     },
     songbookName: function (state) {
       return state.songbookName
@@ -317,6 +321,9 @@ but you can never leave."`,
       }
 
       state.songbookName = fixedName
+    },
+    SAVE_SHEET_CHORDSIZE (state, chordSize) {
+      state.sheetChordSize = chordSize
     }
   },
   modules: {
